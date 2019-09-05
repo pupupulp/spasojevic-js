@@ -1,4 +1,4 @@
-const { dotMultiply, matrix } = require('mathjs');
+const { dotMultiply, matrix, log10 } = require('mathjs');
 
 const computeTf = (tokenOccurence, tokenCount) => {
     let tf = [];
@@ -7,7 +7,7 @@ const computeTf = (tokenOccurence, tokenCount) => {
         tf.push(tokenOccurence[token] / tokenCount);
     }
 
-    tf.map(v => { return Math.log(v); });
+    tf.map(v => { return log10(v); });
 
     return matrix(tf);
 };
@@ -20,7 +20,7 @@ const computeIdf = (tokenOccurence) => {
         idf.push(documentCount / tokenOccurence[token]);
     }
 
-    idf.map(v => { return Math.log(v); });
+    idf.map(v => { return log10(v); });
 
     return matrix(idf);
 }
