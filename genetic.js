@@ -1,3 +1,4 @@
+const { data } = require('./data');
 const { ask } = require('./ask');
 
 class Person {
@@ -21,5 +22,50 @@ class Person {
     
     ask(question) {
         ask(question, this.knowledge);
+    }
+}
+
+class Population {
+    constructor(target, populationSize) {
+        this.people = [];
+        this.target = target;
+        this.generationNo = 0;
+
+        while (populationSize--) {
+            let selector = Math.floor(Math.random() * data.length);
+
+            const person = new Person({
+                mutationRate: Math.random(),
+                fitness: Math.floor(Math.random() * data[selector].knowledge.length),
+                knowledge: data[selector].knowledge
+            });
+
+            this.people.push(person);
+        }
+    }
+
+    sort() {
+        this.people.sort((a, b) => {
+            return b.credibility - a.credibility;
+        })
+    }
+
+    showGeneration() {
+        console.log("Generation: " + this.generationNo);
+        this.people.map(person => {
+            console.log("\n")
+            console.log("Credibility: " + person.credibility);
+            console.log("Knowledge: " + person.knowledge);
+            console.log("\n")
+        })
+    }
+
+    populate() {
+        for (let i = 0; i < this.people.length; i++) {
+            this.people[i].computeCredibility(this.target);
+        }
+
+        this.sort();
+        this.showGeneration();
     }
 }

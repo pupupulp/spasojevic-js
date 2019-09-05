@@ -1,4 +1,4 @@
-const population = [
+module.exports.data = [
     {
         name: 'John Doe',
         knowledge: {
@@ -8,9 +8,8 @@ const population = [
     {
         name: 'Jane Doe',
         knowledge: {
+            "Hi, how are you?": "Im fine.",
             "Where are you?": "I'm almost there."
         }
     }
 ];
-
-module.exports.population = population;
