@@ -1,4 +1,4 @@
-const { Population } = require('./genetic');
+const { Population } = require('./genetic-algorithm');
 
 const target = {
     question: "Hi there!",

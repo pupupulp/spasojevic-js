@@ -1,8 +1,8 @@
 const { mean, subtract } = require('mathjs');
 
-const { data } = require('./data');
-const { ask } = require('./ask');
-const { tfidfDistance } = require('./tfidf');
+const { data } = require('./data-loader');
+const { ask } = require('./question-ask');
+const { tfidfDistance } = require('./tf-idf');
 
 class Person {
     constructor(config) {
