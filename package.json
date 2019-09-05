@@ -1,7 +1,7 @@
 {
   "name": "spasojevic",
   "version": "1.0.0",
-  "description": "A chatbot that learns through generations of knowledge.",
+  "description": "A simulation of knowledge transfer through generations.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
