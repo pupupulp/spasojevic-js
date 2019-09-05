@@ -1,7 +1,7 @@
 module.exports = [
     {
         knowledge: {
-            "Hi there!": "Hello."
+            "Hi there mate!": "Hello."
         }
     }
 ];

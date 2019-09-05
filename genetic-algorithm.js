@@ -172,8 +172,8 @@ class Population {
             this.people[i].learn(this.target);
             this.people[i].computeCredibility(this.target);
 
-
-            if(!this.people[i].knowledge.hasOwnProperty(this.target.question)) {
+            // if(!this.people[i].knowledge.hasOwnProperty(this.target.question) 
+            if (this.people[i].credibility < 1) {
                 perfectGeneration = false;
             }
         }
