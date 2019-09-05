@@ -1,5 +1,7 @@
-module.exports = {
-    knowledge: {
-        "Hi there!": "Hello."
+module.exports = [
+    {
+        knowledge: {
+            "Hi there!": "Hello."
+        }
     }
-};
+];
