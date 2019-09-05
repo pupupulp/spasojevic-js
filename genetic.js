@@ -18,9 +18,8 @@ class Person {
     }
 
     computeCredibility(target) {
-        let answer = this.ask(target.question);
 
-        this.credibility += tfidfDistance(anser, target.answer);
+        this.credibility += tfidfDistance(target.answer, target.answer);
     }
     
     ask(question) {
@@ -58,7 +57,7 @@ class Population {
         this.people.map(person => {
             console.log("\n")
             console.log("Credibility: " + person.credibility);
-            console.log("Knowledge: " + person.knowledge);
+            console.log("Knowledge: " + JSON.stringify(person.knowledge));
             console.log("\n")
         })
     }
@@ -68,7 +67,9 @@ class Population {
             this.people[i].computeCredibility(this.target);
         }
 
-        this.sort();
-        this.showGeneration();
+        // this.sort();
+        // this.showGeneration();
     }
 }
+
+module.exports.Population = Population;

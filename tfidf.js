@@ -14,16 +14,19 @@ const computeIdf = (tokenOccurence) => {
     let idf = [];
 
     for (const token in tokenOccurence) {
-        tf.push(documentCount / tokenOccurence[token]);
+        idf.push(documentCount / tokenOccurence[token]);
     }
 
     return idf;
 }
 
 const tfidfDistance = (source, target) => {
-    const tokens = value.split(" ");
-    const tokensSet = [...new Set(value.split(" "))];
+    let tokens = source.split(" ");
+    let tokensSet = [...new Set(source.split(" "))];
     let tokenOccurence = [];
+
+    // console.log("source: " + source);
+    // console.log("token:" + tokenOccurence);
     
     tokensSet.forEach(token => {
         tokenOccurence[token] = tokens.filter(word => word == token).length;
@@ -31,6 +34,9 @@ const tfidfDistance = (source, target) => {
 
     let tf = computeTf(tokenOccurence, tokens.length);
     let idf = computeIdf(tokenOccurence);
+
+    console.log("tf: " + tf);
+    console.log("idf: " + idf);
 }
 
 module.exports.tfidfDistance = tfidfDistance;

@@ -2,21 +2,22 @@ let parsedQuestion = {
     words: []
 };
 
-let response = {
-    phrase: '',
-    bestSequence: 0,
-    currentSequence: 0
-};
-
-const generateResponse = (knowledge) {
+const generateResponse = (knowledge) => {
     let previousWordIndex = 0;
+
+    let response = {
+        phrase: '',
+        bestSequence: 0,
+        currentSequence: 0
+    };
 
     for (const topic in knowledge) {
         let topicWords = topic.split(" ");
-
+        console.log(topicWords);
+        
         for (const word in parsedQuestion.words) {
             let parsedWord = parsedQuestion.words[word];
-
+            
             switch(true) {
                 case topicWords.indexOf(parsedWord) > previousWordIndex:
                     response.currentSequence += 1;
@@ -39,11 +40,9 @@ const generateResponse = (knowledge) {
 
 };
 
-const ask = (question, knowledge) {
+const ask = (question, knowledge) => {
     parsedQuestion.words = question.split(" ");
-    generateResponse(knowledge);
-    
-    return response.phrase;
+    return generateResponse(knowledge);
 };
 
 module.exports.ask = ask;
