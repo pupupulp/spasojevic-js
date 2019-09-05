@@ -42,9 +42,41 @@ class Person {
     learn(target) {
         const learningChance = 0.8 || Math.random();
 
-        if (this.learningRate < learningChance) return;
+        // if (this.learningRate < 0.4) {
+        //     this.knowledge[target.answer] = target.question;
+        // }
+        // else if (this.learningRate < 0.5) {
+        //     this.knowledge[target.answer] = target.answer;
+        // }
+        // else if (this.learningRate < 0.8) {
+        //     this.knowledge[target.question] = target.question;
+        // } else {
+        //     this.knowledge[target.question] = target.answer;
+        // }
 
-        this.knowledge[target.question] = target.answer;
+        let newKnowledge = {};
+
+        for (const topic in this.knowledge) {
+            let key = '';
+            let value = '';
+
+            if (Math.random() < learningChance) {
+                key = topic;
+            }
+            
+            if (Math.random() > learningChance) {
+                value = this.knowledge[topic];
+            }
+            
+            if (key.length > 0 && value.length > 0) {
+                newKnowledge[key] = value;
+            }
+        }
+
+        this.knowledge = {
+            ...this.knowledge,
+            ...newKnowledge
+        };
     }
 
     crossover(partner) {
