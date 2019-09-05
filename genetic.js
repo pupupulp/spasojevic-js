@@ -1,5 +1,6 @@
 const { data } = require('./data');
 const { ask } = require('./ask');
+const { tfidfDistance } = require('./tfidf');
 
 class Person {
     constructor(config) {
@@ -17,11 +18,13 @@ class Person {
     }
 
     computeCredibility(target) {
-        this.ask(target.question);
+        let answer = this.ask(target.question);
+
+        this.credibility += tfidfDistance(anser, target.answer);
     }
     
     ask(question) {
-        ask(question, this.knowledge);
+        return ask(question, this.knowledge);
     }
 }
 
