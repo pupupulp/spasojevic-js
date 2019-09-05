@@ -1,0 +1,19 @@
+{
+  "name": "spasojevic",
+  "version": "1.0.0",
+  "description": "A chatbot that learns through generations of knowledge.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pupupulp/spasojevic-js.git"
+  },
+  "author": "Eagan Martin",
+  "license": "MIT License",
+  "bugs": {
+    "url": "https://github.com/pupupulp/spasojevic-js/issues"
+  },
+  "homepage": "https://github.com/pupupulp/spasojevic-js#readme"
+}
