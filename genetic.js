@@ -37,7 +37,7 @@ class Person {
             answerMeanError += mean(answerError);
 
         }
-        console.log(questionMeanError + answerMeanError)
+        
         this.credibility -= (questionMeanError + answerMeanError);
     }
     
@@ -152,7 +152,7 @@ class Population {
 
         let perfectGeneration = true;
         for (let i = 0; i < this.people.length; i++) {
-            this.people[i].learn();
+            this.people[i].learn(this.target);
             this.people[i].computeCredibility(this.target);
 
             if(!this.people[i].knowledge.hasOwnProperty(this.target)) {
