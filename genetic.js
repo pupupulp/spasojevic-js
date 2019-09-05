@@ -1,11 +1,13 @@
+const { mean, subtract } = require('mathjs');
+
 const { data } = require('./data');
 const { ask } = require('./ask');
 const { tfidfDistance } = require('./tfidf');
 
 class Person {
     constructor(config) {
-        this.learningRate = config.mutationRate;
-        this.credibility = this.fitness;
+        this.learningRate = config.learningRate;
+        this.credibility = config.credibility;
         this.knowledge = config.knowledge;
     }
 
@@ -18,8 +20,25 @@ class Person {
     }
 
     computeCredibility(target) {
+        let questionMeanError = 0;
+        let answerMeanError = 0;
 
-        this.credibility += tfidfDistance(target.answer, target.answer);
+        const targetQuestionTfidf = tfidfDistance(target.question);
+        const targetAnswerTfidf = tfidfDistance(target.answer);
+
+        for (const topic in this.knowledge) {
+            const questionTfidf = tfidfDistance(topic);
+            const answerTfidf = tfidfDistance(this.knowledge[topic]);
+
+            const questionError = subtract(targetQuestionTfidf, questionTfidf.resize(targetQuestionTfidf.size()));
+            const answerError = subtract(targetAnswerTfidf, answerTfidf.resize(targetAnswerTfidf.size()));
+            
+            questionMeanError += mean(questionError);
+            answerMeanError += mean(answerError);
+
+        }
+        console.log(questionMeanError + answerMeanError)
+        this.credibility -= (questionMeanError + answerMeanError);
     }
     
     ask(question) {
@@ -37,8 +56,8 @@ class Population {
             let selector = Math.floor(Math.random() * data.length);
 
             const person = new Person({
-                mutationRate: Math.random(),
-                fitness: Math.floor(Math.random() * data[selector].knowledge.length),
+                learningRate: Math.random(),
+                credibility: Math.floor(Math.random() * (Object.keys(data[selector].knowledge).length) + 1),
                 knowledge: data[selector].knowledge
             });
 
@@ -67,8 +86,8 @@ class Population {
             this.people[i].computeCredibility(this.target);
         }
 
-        // this.sort();
-        // this.showGeneration();
+        this.sort();
+        this.showGeneration();
     }
 }
 

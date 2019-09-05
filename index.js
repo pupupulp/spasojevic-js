@@ -1,8 +1,8 @@
 const { Population } = require('./genetic');
 
 const target = {
-    question: "Hello there.",
-    answer: "Oh hi."
+    question: "Hi, John!",
+    answer: "Hello!"
 };
 const populationSize = 10;
 
