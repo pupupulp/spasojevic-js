@@ -187,7 +187,7 @@ class Population {
             const self = this;
             setTimeout(function() {
                 self.populate();
-            }, 20);
+            }, 200);
         }
     }
 }
