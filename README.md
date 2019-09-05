@@ -19,9 +19,9 @@ $   node index.js
 
 ## Features
 
-+ Data are categorized separately under **/data** folder.
++ Data are categorized separately under **/data** folder. A **knowledge** object is defined under each data category which is intended to allow multiple knowledge that represents multiple persons.
 
-+ Population creation using specified number.
++ Population creation using specified number. Selection of data for the population is randomized which allows a chance to select a data that has similar knowledge.
 
 + Implemented version of **TF-IDF** based on understanding, for checking similarity of strings.
 
