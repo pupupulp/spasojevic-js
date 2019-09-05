@@ -85,13 +85,13 @@ class Person {
         const offspring1 = {
             learningRate: offspring1LearningRate,
             credibility: (offspring1Credibility + parentsCredibility) / 2,
-            knowledge: this.value.substr(0, pivot) + partner.value.substr(pivot)
+            knowledge: offspring1Knowledge
         };
 
         const offspring2 = {
             learningRate: offspring2LearningRate,
             credibility: (offspring2Credibility + parentsCredibility) / 2,
-            knowledge: partner.value.substr(0, pivot) + this.value.substr(pivot)
+            knowledge: offspring2Knowledge
         }
 
         return [new Person(offspring1), new Person(offspring2)];
