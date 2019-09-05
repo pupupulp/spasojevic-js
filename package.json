@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/pupupulp/spasojevic-js/issues"
   },
-  "homepage": "https://github.com/pupupulp/spasojevic-js#readme"
+  "homepage": "https://github.com/pupupulp/spasojevic-js#readme",
+  "dependencies": {
+    "mathjs": "^6.2.1"
+  }
 }
