@@ -1,3 +1,4 @@
+const { dotMultiply, matrix } = require('mathjs');
 
 const computeTf = (tokenOccurence, tokenCount) => {
     let tf = [];
@@ -8,7 +9,7 @@ const computeTf = (tokenOccurence, tokenCount) => {
 
     tf.map(v => { return Math.log(v); });
 
-    return tf;
+    return matrix(tf);
 };
 
 const computeIdf = (tokenOccurence) => {
@@ -21,7 +22,7 @@ const computeIdf = (tokenOccurence) => {
 
     idf.map(v => { return Math.log(v); });
 
-    return idf;
+    return matrix(idf);
 }
 
 const tfidfDistance = (source) => {
@@ -36,8 +37,7 @@ const tfidfDistance = (source) => {
     let tf = computeTf(tokenOccurence, tokens.length);
     let idf = computeIdf(tokenOccurence);
 
-    console.log(tf);
-    console.log(idf);
+    return dotMultiply(tf, idf);
 }
 
 module.exports.tfidfDistance = tfidfDistance;
