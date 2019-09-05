@@ -89,6 +89,13 @@ class Person {
         let offspring2Credibility = Math.floor(Math.random() * (Object.keys(offspring2Knowledge).length) + 1);
         offspring2Credibility = (offspring2Credibility + parentsCredibility) / 2;
 
+        const offspring3LearningRate = (offspring1LearningRate + offspring2LearningRate);
+        const offspring3Credibility = (offspring1Credibility + offspring2Credibility);
+        const offspring3Knowledge = {
+            ...offspring1Knowledge,
+            ...offspring2Knowledge
+        };
+
         const offspring1 = {
             learningRate: offspring1LearningRate,
             credibility: offspring1Credibility,
@@ -102,12 +109,9 @@ class Person {
         }
 
         const offspring3 = {
-            learningRate: offspring1LearningRate + offspring2LearningRate,
-            credibility: offspring1Credibility + offspring2Credibility,
-            knowledge: {
-                ...offspring1Knowledge,
-                ...offspring2Knowledge
-            }
+            learningRate: offspring3LearningRate,
+            credibility: offspring3Credibility,
+            knowledge: offspring3Knowledge
         }
 
         return [new Person(offspring1), new Person(offspring2), new Person(offspring3)];
