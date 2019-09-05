@@ -11,14 +11,6 @@ class Person {
         this.knowledge = config.knowledge;
     }
 
-    learn() {
-
-    }
-
-    crossover(partner) {
-
-    }
-
     computeCredibility(target) {
         let questionMeanError = 0;
         let answerMeanError = 0;
@@ -37,8 +29,10 @@ class Person {
             answerMeanError += mean(answerError);
 
         }
-        
-        this.credibility -= (questionMeanError + answerMeanError);
+
+        const knowledgeLength = ((Object.keys(this.knowledge).length) + 1);
+
+        this.credibility -= (questionMeanError + answerMeanError) / knowledgeLength;
     }
     
     ask(question) {
@@ -46,11 +40,11 @@ class Person {
     }
 
     learn(target) {
-        const learningChance = 0.5 || Math.random();
+        const learningChance = 0.8 || Math.random();
 
         if (this.learningRate < learningChance) return;
 
-        this.knowledge[target.question] = target.question;
+        this.knowledge[target.question] = target.answer;
     }
 
     crossover(partner) {
@@ -59,8 +53,7 @@ class Person {
             ...partner.knowledge
         };
         const parentKnowledgeLength = (Object.keys(parentKnowledge).length) + 1;
-        const knowledgeOptimizer = Math.floor(Math.random() * parentKnowledgeLength);
-
+        
         const parentsLearningRate = (this.learningRate + partner.learningRate) / 2;
         const offspring1LearningRate = (Math.random() + parentsLearningRate) / 2;
         const offspring2LearningRate = (Math.random() + parentsLearningRate) / 2;        
@@ -68,33 +61,56 @@ class Person {
         let offspring1Knowledge = {};
         let offspring2Knowledge = {};
         
+        let offspring1PivotLimit = Math.floor(Math.random() * parentKnowledgeLength);
+        offspring1PivotLimit = offspring1PivotLimit > 0 ? offspring1PivotLimit : (parentKnowledgeLength / 2);
+        
+        let offspring2PivotLimit = Math.floor(Math.random() * parentKnowledgeLength);
+        offspring2PivotLimit = offspring2PivotLimit > 0 ? offspring2PivotLimit : (parentKnowledgeLength / 2);
+        
+        let pivot = 0;
+        
         for (const topic in parentKnowledge) {
-            if (offspring1LearningRate < (Math.random() + knowledgeOptimizer)) {
+            if (pivot < offspring1PivotLimit) {
                 offspring1Knowledge[topic] = parentKnowledge[topic];
             }
             
-            if (offspring2LearningRate < (Math.random() + knowledgeOptimizer)) {
+            if (pivot < offspring2PivotLimit) {
                 offspring2Knowledge[topic] = parentKnowledge[topic];
             }
+            
+            pivot++;
         }
         
-        const parentsCredibility = (this.credibility + partner.credibility) / 2;
-        const offspring1Credibility = Math.floor(Math.random() * (Object.keys(offspring1Knowledge).length) + 1);
-        const offspring2Credibility = Math.floor(Math.random() * (Object.keys(offspring2Knowledge).length) + 1);
+        const parentsCredibility = Math.abs(this.credibility + partner.credibility) / 2;
+
+        let offspring1Credibility = Math.floor(Math.random() * (Object.keys(offspring1Knowledge).length) + 1);
+        offspring1Credibility = (offspring1Credibility + parentsCredibility) / 2;
+
+        let offspring2Credibility = Math.floor(Math.random() * (Object.keys(offspring2Knowledge).length) + 1);
+        offspring2Credibility = (offspring2Credibility + parentsCredibility) / 2;
 
         const offspring1 = {
             learningRate: offspring1LearningRate,
-            credibility: (offspring1Credibility + parentsCredibility) / 2,
+            credibility: offspring1Credibility,
             knowledge: offspring1Knowledge
         };
 
         const offspring2 = {
             learningRate: offspring2LearningRate,
-            credibility: (offspring2Credibility + parentsCredibility) / 2,
+            credibility: offspring2Credibility,
             knowledge: offspring2Knowledge
         }
 
-        return [new Person(offspring1), new Person(offspring2)];
+        const offspring3 = {
+            learningRate: offspring1LearningRate + offspring2LearningRate,
+            credibility: offspring1Credibility + offspring2Credibility,
+            knowledge: {
+                ...offspring1Knowledge,
+                ...offspring2Knowledge
+            }
+        }
+
+        return [new Person(offspring1), new Person(offspring2), new Person(offspring3)];
     }
 }
 
@@ -126,10 +142,7 @@ class Population {
     showGeneration() {
         console.log("Generation: " + this.generationNo);
         this.people.map(person => {
-            console.log("\n")
-            console.log("Credibility: " + person.credibility);
-            console.log("Knowledge: " + JSON.stringify(person.knowledge));
-            console.log("\n")
+            console.log("Credibility: " + person.credibility + " | Knowledge: " + JSON.stringify(person.knowledge));
         })
     }
 
@@ -148,14 +161,15 @@ class Population {
 
         const offsprings = this.people[bestParent].crossover(this.people[randomParent]);
 
-        this.people.splice(this.people.length - 2, 2, offsprings[0], offsprings[1]);
+        this.people.splice(this.people.length - 3, 3, offsprings[0], offsprings[1], offsprings[2]);
 
         let perfectGeneration = true;
         for (let i = 0; i < this.people.length; i++) {
             this.people[i].learn(this.target);
             this.people[i].computeCredibility(this.target);
 
-            if(!this.people[i].knowledge.hasOwnProperty(this.target)) {
+
+            if(!this.people[i].knowledge.hasOwnProperty(this.target.question)) {
                 perfectGeneration = false;
             }
         }

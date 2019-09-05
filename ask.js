@@ -13,7 +13,6 @@ const generateResponse = (knowledge) => {
 
     for (const topic in knowledge) {
         let topicWords = topic.split(" ");
-        console.log(topicWords);
         
         for (const word in parsedQuestion.words) {
             let parsedWord = parsedQuestion.words[word];
