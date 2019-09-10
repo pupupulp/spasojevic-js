@@ -2,7 +2,7 @@ const { Population } = require('./genetic-algorithm');
 
 const target = {
     question: "Hi there!",
-    answer: "Hello!"
+    answer: ""
 };
 const populationSize = 5;
 

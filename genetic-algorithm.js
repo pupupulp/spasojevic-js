@@ -32,6 +32,8 @@ class Person {
 
         const knowledgeLength = ((Object.keys(this.knowledge).length) + 1);
 
+        if(target.answer.length <= 0) answerMeanError *= -1;
+
         this.credibility -= (questionMeanError + answerMeanError) / knowledgeLength;
     }
     
