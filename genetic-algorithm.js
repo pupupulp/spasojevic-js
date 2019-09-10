@@ -21,8 +21,15 @@ class Person {
         for (const topic in this.knowledge) {
             const questionTfidf = tfidfDistance(topic);
             const answerTfidf = tfidfDistance(this.knowledge[topic]);
+            
+            let questionError = 0;
 
-            const questionError = subtract(targetQuestionTfidf, questionTfidf.resize(targetQuestionTfidf.size()));
+            if(target.question.length >= topic) {
+                questionError = subtract(targetQuestionTfidf, questionTfidf.resize(targetQuestionTfidf.size()));
+            } else {
+                questionError = subtract(targetQuestionTfidf.resize(questionTfidf.size()), questionTfidf);
+            }
+
             let answerError = 0;
 
             if(target.answer.length >= this.knowledge[topic].length) {
