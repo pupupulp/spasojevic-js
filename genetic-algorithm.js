@@ -23,16 +23,21 @@ class Person {
             const answerTfidf = tfidfDistance(this.knowledge[topic]);
 
             const questionError = subtract(targetQuestionTfidf, questionTfidf.resize(targetQuestionTfidf.size()));
-            const answerError = subtract(targetAnswerTfidf, answerTfidf.resize(targetAnswerTfidf.size()));
-            
+            let answerError = 0;
+
+            if(target.answer.length >= this.knowledge[topic].length) {
+                answerError = subtract(targetAnswerTfidf, answerTfidf.resize(targetAnswerTfidf.size()));
+            } else {
+                answerError = subtract(targetAnswerTfidf.resize(answerTfidf.size()), answerTfidf);
+            }
+
             questionMeanError += mean(questionError);
             answerMeanError += mean(answerError);
-
         }
 
         const knowledgeLength = ((Object.keys(this.knowledge).length) + 1);
 
-        if(target.answer.length <= 0) answerMeanError *= -1;
+        if(target.answer.length <= 0) answerMeanError = knowledgeLength;
 
         this.credibility -= (questionMeanError + answerMeanError) / knowledgeLength;
     }
